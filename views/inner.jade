@@ -1,0 +1,114 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    | 
+    title 比赛详情
+    | 
+    link(href='/stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    | 
+    style.
+      #inner{
+      max-width: 800px;
+       margin-top:50px;background-color: white;
+      }
+      .uper-info span{
+      margin-right: 20px;
+      }
+      body{
+      background-color: #D6E9C6;
+      }
+      .modal-content{
+        text-align: center;
+      }
+      .modal-content button{
+        margin:30px 15px 30px 15px;
+      }
+  | 
+  body
+    include header.jade
+    #pid(style="display:none")= pid
+    #inner.container-fluid
+      h1= title
+      | 
+      hr
+      | 
+      - tname="发布者："+tname
+      -ptime="发布时间："+ptime
+      .uper-info
+        span= tname
+        span= ptime
+      | 
+      hr
+      | 
+      p= pin
+      hr
+      button.btn.btn-primary(type="button", data-toggle="modal", data-target=".bs-example-modal-sm") 点击报名
+      .modal.fade.bs-example-modal-sm(tabindex="-1", role="dialog", aria-labelledby="mySmallModalLabel")
+        .modal-dialog.modal-sm(role="document")
+          .modal-content
+            h2 确定报名？
+            button.btn.btn-primary#submit(type="button") 确定
+            button.btn.btn-default(type="button" data-dismiss="modal") 取消
+
+      hr
+      #list
+        table.table.table-bordered
+          thead
+            tr
+              th 已报名：#人
+              th 学号
+              th 姓名
+              th 报名时间
+           tbody
+
+  script.
+    $(document).ready(function(){
+        var isLog = $("#isLog").text();
+        var pid = $("#pid").text();
+        function loging(){
+            $.get('/get_addicate/'+pid,function (data) {
+                var data1 = JSON.parse(data);
+                for (var i = 0; i<data1.length; i++) {
+                    var j=i+1;
+                    var time=data1[i].time;
+                    $("tbody").append("<tr><th>" + j + "</th><td>" + data1[i].sno + "</td><td>" + data1[i].tname + "</td><td>" + time + "</td></tr>");
+                }
+            })
+
+        }
+        function refresh() {
+            $.get('/get_addicate/' + pid, function (data) {
+                var data1 = JSON.parse(data);
+                $("tbody").empty();
+                for (var i = 0; i < data1.length; i++) {
+                    var j = i + 1;
+                    var time = data1[i].time;
+
+                    $("tbody").append("<tr><th>" + j + "</th><td>" + data1[i].sno + "</td><td>" + data1[i].tname + "</td><td>" + time + "</td></tr>");
+        }})};
+        loging();
+        $("#submit").click(function () {
+
+            if (isLog == 0) {
+                alert("请登录");
+                return false;
+            }
+            $.ajax({
+                url:'/add_addicate/'+pid,
+                type:'GET',
+                async:false,
+                success:function (data,status) {
+                  alert("报名成功");
+                    $('.bs-example-modal-sm').modal('hide');
+                    refresh();
+                },
+                error:function (data,status) {
+                    if(status=='error')alert("报名失败");
+                }
+            })
+
+            })
+        })
+

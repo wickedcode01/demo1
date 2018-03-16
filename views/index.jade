@@ -1,0 +1,58 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title demo
+    link(href='/stylesheets/bootstrap.min.css', rel='stylesheet')
+    link(rel='stylesheet', href='stylesheets/lrtk.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    style.
+      #showLeft {
+            position: fixed;
+            height: 100%;
+            width: 50px;
+            left: 0;
+            top:50px;
+            background-color: #449D44;
+            border: none;
+            text-align: center;
+        }
+        body{
+            min-width:1200px;
+        }
+  body
+    include  header.jade
+    #showLeft
+      img.user-img(src='images/user.png')
+    .body.container#main
+      .main
+        nav#cbp-spmenu-s1.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-left
+          img.user-img.big(src='images/user.png')
+          h3= nickname
+          a(href='', target='_blank') 比赛推送
+          a(href='', target='_blank') 近期赛况
+          a(href='', target='_blank') 综合查询
+        .container-fluid
+          .row
+            -for(var i=0;i<title.length;i++){
+              .col-sm-4.col-md-3.col-xs-6(id='section'+i)
+                  a.thumbnail(href= "/p/"+pid[i])
+                    .img-box
+                      img.art-img(src='images/loading.gif')
+                      .details
+                         .uploader
+                         
+                    .caption
+                       h3= title[i]
+               -}
+            
+       
+           
+
+
+    script(type='text/javascript', src='javascripts/classie.js')
+    script(src='javascripts/jquery.hoverdir.js')
+    script(src='javascripts/modernizr.js')
+    script(type='text/javascript', src='javascripts/edit.js')

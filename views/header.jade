@@ -1,0 +1,37 @@
+nav.navbar.navbar-default
+     .container-fluid
+        .navbar-header
+          a.navbar-brand(href='/')
+            span.glyphicon.glyphicon-book(aria-hidden='true')
+            | &nbsp 扬大竞赛平台
+        #bs-example-navbar-collapse-1.collapse.navbar-collapse
+          
+          ul.nav.navbar-nav.navbar-right
+            // 右侧组件
+            -if(isLog==1){
+                      a.btn.titlebtn#logout
+                        span.glyphicon.glyphicon-user.center-block
+                        span 登出
+                      #isLog(style='display:none')= isLog
+            -}
+            -else{
+                     a.btn.titlebtn(href="/login.html")
+                        span.glyphicon.glyphicon-user.center-block
+                        span 登录
+                    a.btn.titlebtn(href="/register.html")
+                        span.glyphicon.glyphicon-log-in.center-block
+                        span 注册
+
+             
+            -}
+
+          script(src="/javascripts/jquery-3.2.1.min.js")
+          script(type='text/javascript', src='/javascripts/bootstrap.min.js')
+
+         script.
+            $("#logout").click(function () {
+
+                    location.href="/logout";
+
+            });
+
